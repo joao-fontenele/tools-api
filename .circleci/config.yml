@@ -1,0 +1,46 @@
+version: 2.1
+
+jobs:
+  build-and-test:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Deps
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Lint Commits
+          command: npx commitlint-circle
+      - run:
+          name: Lint Code
+          command: npm run lint
+      - run:
+          name: Run Tests
+          command: npm run test
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            # download test reporter as a static binary
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          name: Run Test Coverage
+          command: |
+            ./cc-test-reporter before-build
+            npm run coverage
+            ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
+      - store_artifacts:
+          path: coverage.tar.gz
+
+workflows:
+    build-and-test:
+      jobs:
+        - build-and-test

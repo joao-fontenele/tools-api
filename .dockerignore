@@ -1,0 +1,7 @@
+data
+node_modules
+.env
+.nyc_output
+coverage
+coverage.tar.gz
+*.log
