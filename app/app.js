@@ -1,9 +1,11 @@
-const express = require('express');
+const middlewares = require('./middlewares');
 
-const app = express();
+function setupApp(app) {
+  middlewares.setupMainMiddlewares(app);
 
-app.get('/status', (req, res) => {
-  res.json({ message: 'OK' });
-});
+  return app;
+}
 
-module.exports = app;
+module.exports = {
+  setupApp,
+};

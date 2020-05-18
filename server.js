@@ -1,8 +1,16 @@
-const app = require('./app/app');
+require('dotenv').config();
+const express = require('express');
+const { setupApp } = require('./app/app');
+const config = require('./app/config');
+const logger = require('./app/utils/logger');
 
-const PORT = 3000;
+const app = setupApp(express());
 
-app.listen(PORT, () => {
+setupApp(app);
+
+const port = config.get('port');
+
+app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`tools-api listening on port ${PORT}`);
+  logger.info(`tools-api listening on port ${port}`);
 });
