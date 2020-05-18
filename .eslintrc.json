@@ -16,7 +16,9 @@
         "no-unused-expressions": ["off"]
       },
       "globals": {
+        "testUtils": true,
         "sinon": true,
+        "request": true,
         "expect": true
       }
     }
