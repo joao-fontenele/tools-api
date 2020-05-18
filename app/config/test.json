@@ -1,0 +1,5 @@
+{
+  "env": "test",
+  "logLevel": "silent",
+  "port": 3001
+}
