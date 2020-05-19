@@ -3,6 +3,9 @@
   "plugins": [
     "import"
   ],
+  "rules": {
+    "no-underscore-dangle": ["off"]
+  },
   "env": {
     "node": true,
     "mocha": true
@@ -16,8 +19,11 @@
         "no-unused-expressions": ["off"]
       },
       "globals": {
+        "testUtils": true,
         "sinon": true,
-        "expect": true
+        "request": true,
+        "expect": true,
+        "app": true
       }
     }
   ]

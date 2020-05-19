@@ -1,9 +1,21 @@
-const express = require('express');
+const { errors } = require('celebrate');
+const middlewares = require('./middlewares');
+const routes = require('./routes');
+const MongoClient = require('./clients/mongo');
 
-const app = express();
+async function setupApp(app) {
+  middlewares.setupMainMiddlewares(app);
 
-app.get('/status', (req, res) => {
-  res.json({ message: 'OK' });
-});
+  routes.setupRoutes(app);
 
-module.exports = app;
+  await MongoClient.connect();
+
+  // joi validation error handler. Has to be after the routes
+  app.use(errors());
+
+  return app;
+}
+
+module.exports = {
+  setupApp,
+};

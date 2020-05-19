@@ -1,6 +1,7 @@
 {
   "all": true,
   "exclude": [
+    "data"
   ],
   "include": [
     "app/**/*.js"

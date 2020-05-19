@@ -4,7 +4,21 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "celebrate": "^12.1.1",
+    "compression": "^1.7.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
+    "express-prometheus-middleware": "^0.9.5",
+    "helmet": "^3.22.0",
+    "lodash.get": "^4.4.2",
+    "lodash.omit": "^4.5.0",
+    "mongoose": "^5.9.14",
+    "nconf": "^0.10.0",
+    "pino": "^6.2.1",
+    "prom-client": "^12.0.0",
+    "stable-cache": "0.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -18,20 +32,22 @@
     "mocha": "^7.1.2",
     "nodemon": "^2.0.4",
     "nyc": "^15.0.1",
+    "pino-pretty": "^4.0.0",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
-    "standard-version": "^8.0.0"
+    "standard-version": "^8.0.0",
+    "supertest": "^4.0.2"
   },
   "scripts": {
     "start": "node server.js",
     "start:dev": "nodemon --ignore data/ --exec 'npm start'",
     "coverage:unit": "nyc npm run test:unit",
-    "coverage:e2e": "nyc --no-clean npm run test:e2e",
+    "coverage:integration": "nyc --no-clean npm run test:integration",
     "coverage:report": "nyc report --reporter=lcov --reporter=text",
-    "coverage": "npm run coverage:unit && npm run coverage:e2e && npm run coverage:report && tar -czvf coverage.tar.gz coverage",
-    "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "mocha --recursive --require ./tests/setup.js ./tests/unit",
-    "test:e2e": "mocha --recursive --require ./tests/setup.js ./tests/e2e",
+    "coverage": "npm run coverage:unit && npm run coverage:integration && npm run coverage:report && tar -czvf coverage.tar.gz coverage",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "NODE_ENV=test mocha --recursive --require ./tests/setup.js ./tests/unit",
+    "test:integration": "NODE_ENV=test mocha --recursive --require ./tests/setup.js ./tests/integration",
     "lint": "eslint . --max-warnings 0",
     "release": "standard-version"
   },

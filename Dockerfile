@@ -1,9 +1,9 @@
 FROM node:14-alpine
 
-USER node
-
 ENV HOME /home/node
 ENV CODE $HOME/code
+
+RUN apk add --update --no-cache git
 
 RUN mkdir -p $CODE
 
