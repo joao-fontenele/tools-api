@@ -4,14 +4,23 @@ jobs:
   build-and-test:
     working_directory: ~/app
     docker:
-      - image: circleci/node:14
+      - image: docker:18.03.0-ce-git
     steps:
       - checkout
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+      - setup_remote_docker
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Deps
-          command: npm install
+          command: |
+            docker-compose build
+            docker-compose run --rm app npm i
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
@@ -21,10 +30,10 @@ jobs:
           command: npx commitlint-circle
       - run:
           name: Lint Code
-          command: npm run lint
+          command: docker-compose run --rm --no-deps app npm run lint
       - run:
           name: Run Tests
-          command: npm run test
+          command: docker-compose run --rm --no-deps app npm run test
       - run:
           name: Setup Code Climate test-reporter
           command: |
@@ -35,7 +44,7 @@ jobs:
           name: Run Test Coverage
           command: |
             ./cc-test-reporter before-build
-            npm run coverage
+            docker-compose run --rm --no-deps app npm run coverage
             ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
       - store_artifacts:
           path: coverage.tar.gz

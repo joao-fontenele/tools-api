@@ -1,3 +1,8 @@
+.PHONY: build
+build:
+	docker-compose build
+	docker-compose run --rm app npm i
+
 .PHONY: start
 start:
 	docker-compose up -d
@@ -14,9 +19,13 @@ down:
 test:
 	docker-compose run --rm app npm run test
 
+.PHONY: coverage
+coverage:
+	docker-compose run --rm app npm run coverage
+
 .PHONY: lint
 lint:
-	docker-compose run --rm app npm run lint
+	docker-compose run --rm --no-deps app npm run lint
 
 .PHONY: cli
 cli: start
