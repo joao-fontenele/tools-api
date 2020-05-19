@@ -1,5 +1,8 @@
 {
   "env": "test",
   "logLevel": "silent",
-  "port": 3001
+  "port": 3001,
+  "mongo": {
+    "url": "mongodb://mongo/test-tools"
+  }
 }

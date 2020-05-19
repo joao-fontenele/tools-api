@@ -1,4 +1,7 @@
 {
   "env": "development",
-  "logLevel": "debug"
+  "logLevel": "debug",
+  "mongo": {
+    "url": "mongodb://mongo/tools"
+  }
 }
