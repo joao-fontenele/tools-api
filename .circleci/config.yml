@@ -4,16 +4,9 @@ jobs:
   build-and-test:
     working_directory: ~/app
     docker:
-      - image: docker:18.03.0-ce-git
+      - image: circleci/node:14
     steps:
       - checkout
-      # - run:
-      #     name: Install Docker Compose
-      #     command: |
-      #       apk --update add py2-pip
-      #       /usr/bin/pip2 install --upgrade pip
-      #       /usr/bin/pip2 install docker-compose
-      #       docker-compose --version
       - setup_remote_docker
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
