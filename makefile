@@ -23,6 +23,10 @@ test:
 coverage:
 	docker-compose run --rm app npm run coverage
 
+.PHONY: commit-lint
+commit-lint:
+	docker-compose run --rm --no-deps app npx commitlint-circle
+
 .PHONY: lint
 lint:
 	docker-compose run --rm --no-deps app npm run lint

@@ -8,8 +8,11 @@ services:
       - 3000:3000
     depends_on:
       - mongo
+    environment:
+      - SSH_AUTH_SOCK=/tmp/ssh_auth.sock
     volumes:
       - .:/home/node/code
+      - $SSH_AUTH_SOCK:/tmp/ssh_auth.sock
 
   mongo:
     image: mongo:4
