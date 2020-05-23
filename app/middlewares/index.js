@@ -1,6 +1,7 @@
 const Prometheus = require('prom-client');
 const bodyParser = require('body-parser');
 const compression = require('compression');
+const cors = require('cors');
 const expressPinoLogger = require('express-pino-logger');
 const helmet = require('helmet');
 const promMid = require('express-prometheus-middleware');
@@ -14,6 +15,7 @@ const prometheusMiddleware = promMid({
   requestDurationBuckets: Prometheus.exponentialBuckets(0.1, 2, 7),
   prefix: 'tools_api_',
 });
+const corsMiddleware = cors();
 
 function setupMainMiddlewares(app) {
   // apply security in headers
@@ -24,6 +26,11 @@ function setupMainMiddlewares(app) {
 
   // logs req/res
   app.use(expressPinoLogger({ logger }));
+
+  // enable preflight cors requests
+  app.options('*', corsMiddleware);
+
+  app.use(corsMiddleware);
 
   // parse req bodies from json, or url encoded forms
   app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
