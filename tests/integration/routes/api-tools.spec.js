@@ -2,8 +2,8 @@ const get = require('lodash.get');
 const omit = require('lodash.omit');
 const Tool = require('../../../app/models/tool');
 
-describe('/api/tools routes ', async function () {
-  const baseRoute = '/api/tools';
+describe('/tools routes ', async function () {
+  const baseRoute = '/tools';
   let tool = {};
   let id;
 
@@ -205,7 +205,7 @@ describe('/api/tools routes ', async function () {
     context('with filtering params', function () {
       it('should filter based on tags', function () {
         return request(app)
-          .get(`${baseRoute}?tags[]=tag1`)
+          .get(`${baseRoute}?tag=tag1`)
           .expect(200)
           .then(async (res) => {
             expect(res.headers['x-powered-by']).to.not.exist;
@@ -216,7 +216,7 @@ describe('/api/tools routes ', async function () {
 
       it('should filter with OR from tags params', function () {
         return request(app)
-          .get(`${baseRoute}?tags[]=tag1&tags[]=tag3`)
+          .get(`${baseRoute}?tag=tag1&tag=tag3`)
           .expect(200)
           .then(async (res) => {
             expect(res.headers['x-powered-by']).to.not.exist;
@@ -229,7 +229,7 @@ describe('/api/tools routes ', async function () {
 
       it('should return empty array when there is no tool that fill the search criteria', function () {
         return request(app)
-          .get(`${baseRoute}?tags[]=tag5`)
+          .get(`${baseRoute}?tag=tag5`)
           .expect(200)
           .then(async (res) => {
             expect(res.headers['x-powered-by']).to.not.exist;

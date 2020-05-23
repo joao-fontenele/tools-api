@@ -30,7 +30,7 @@ class Controller {
 
   static async find(req, res) {
     const {
-      tags,
+      tag: tags,
       limit,
       offset,
       sort,
