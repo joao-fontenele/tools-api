@@ -33,7 +33,7 @@ paths:
             default: 50
           description: The numbers of tools to return
         - in: query
-          name: tags
+          name: tag
           schema:
             type: array
             items:

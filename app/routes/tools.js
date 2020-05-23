@@ -38,7 +38,7 @@ function setupRoutes(app) {
     '/tools',
     celebrate({
       [Segments.QUERY]: {
-        tags,
+        tag: tags.single(),
         sort: Joi.string().valid('title', '-title').default('title'),
         offset: Joi.number().greater(-1).default(0),
         limit: Joi.number().greater(0).default(50),
