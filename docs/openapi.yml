@@ -1,0 +1,237 @@
+openapi: 3.0.0
+
+info:
+  title: Tools API
+  version: 0.0.0
+  description: |
+    ## What's is this API
+
+    This is a sample API, with crud operations for Tool model
+
+servers:
+  - url: http://localhost:3000
+    description: Localhost dev server
+
+paths:
+  /tools:
+    get:
+      summary: List tools.
+      operationId: getTools
+      tags:
+        - Tools
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          description: The number of tools to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+          description: The numbers of tools to return
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+          description: Tags filter to search for tools. If multiple tags are provided, make an `OR` filter.
+        - in: query
+          name: sort
+          schema:
+            enum:
+              - title
+              - -title
+            default: title
+          description: Sort in ascending or descending order
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tool'
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+    post:
+      summary: Create new.
+      operationId: createTool
+      tags:
+        - Tools
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tool'
+      responses:
+        201:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+  /tools/{id}:
+    get:
+      summary: Get tool by id.
+      operationId: getToolById
+      tags:
+        - Tools
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        404:
+          description: Not Found
+    put:
+      summary: Update tool by id.
+      operationId: updateTool
+      tags:
+        - Tools
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tool'
+      responses:
+        204:
+          description: Success.
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        404:
+          description: Not Found
+    patch:
+      summary: Update tool by id.
+      operationId: patchTool
+      tags:
+        - Tools
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tool'
+      responses:
+        204:
+          description: Success.
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        404:
+          description: Not Found
+    delete:
+      summary: Delete a Tool.
+      operationId: deleteTool
+      tags:
+        - Tools
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Not Found
+  # Tool
+
+components:
+  schemas:
+    ValidationError:
+      type: object
+      description: Bad request response explanation.
+      properties:
+        statusCode:
+          type: number
+          description: HTTP status code.
+          example: 400
+        error:
+          type: string
+          description: HTTP status code text.
+          example: Bad Request
+        message:
+          type: string
+          description: Human readable explanation for the bad request.
+          example: '"link" must be a valid uri.'
+        validation:
+          type: object
+          description: Details of where the bad request was originated.
+          properties:
+            source:
+              type: string
+              description: Where the request failed validation.
+            keys:
+              type: array
+              items:
+                type: string
+              description: Menbers of the request source that failed validation.
+
+    Tool:
+      type: object
+      description: Model for tool entity.
+      properties:
+        title:
+          type: string
+          description: Tool title.
+          example: "json-server"
+        description:
+          type: string
+          description: Longer description for the tool.
+          example: Fake REST API based on json schema.
+        link:
+          type: string
+          format: uri
+          description: External link for the tool.
+          example: https://github.com/typicode/json-server
+        tags:
+          type: array
+          description: Searchable keywords for the tool.
+          items:
+            type: string
+          example: ["api", "json", "schema", "node", "rest", "github"]
