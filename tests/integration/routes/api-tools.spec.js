@@ -3,7 +3,7 @@ const omit = require('lodash.omit');
 const Tool = require('../../../app/models/tool');
 
 describe('/api/tools routes ', async function () {
-  const baseRoute = '/api/tools';
+  const baseRoute = '/tools';
   let tool = {};
   let id;
 

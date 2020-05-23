@@ -13,7 +13,7 @@ const updateToolSchema = {
 
 function setupRoutes(app) {
   app.post(
-    '/api/tools',
+    '/tools',
     celebrate({
       [Segments.BODY]: {
         title: Joi.string().required(),
@@ -25,17 +25,17 @@ function setupRoutes(app) {
     ToolsController.create,
   );
   app.put(
-    '/api/tools/:id',
+    '/tools/:id',
     celebrate({ [Segments.BODY]: updateToolSchema }),
     ToolsController.update,
   );
   app.patch(
-    '/api/tools/:id',
+    '/tools/:id',
     celebrate({ [Segments.BODY]: updateToolSchema }),
     ToolsController.update,
   );
   app.get(
-    '/api/tools',
+    '/tools',
     celebrate({
       [Segments.QUERY]: {
         tags,
@@ -47,11 +47,11 @@ function setupRoutes(app) {
     ToolsController.find,
   );
   app.get(
-    '/api/tools/:id',
+    '/tools/:id',
     ToolsController.findOne,
   );
   app.delete(
-    '/api/tools/:id',
+    '/tools/:id',
     ToolsController.delete,
   );
 
