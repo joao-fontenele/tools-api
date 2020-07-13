@@ -36,7 +36,7 @@
     "pino-pretty": "^4.0.0",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
-    "standard-version": "^8.0.0",
+    "standard-version": "^8.0.1",
     "supertest": "^4.0.2"
   },
   "scripts": {
